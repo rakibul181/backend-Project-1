@@ -61,8 +61,6 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   },
 })
 
-
-
 const studentSchema = new Schema<Student>({
   id: {
     type: String,
@@ -101,7 +99,6 @@ const studentSchema = new Schema<Student>({
   isActive: ['Active', 'Inactive'],
   localGuardian: localGuardianSchema,
 })
-
 
 //model
 export const StudentModel = model<Student>('Student', studentSchema)

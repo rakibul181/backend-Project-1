@@ -13,12 +13,11 @@ export type Guardian = {
   motherContactNo: string
 }
 
-
-export type LocalGuardian= {
-     name:string
-     occupation:string
-     contactNo:string
-     address:string
+export type LocalGuardian = {
+  name: string
+  occupation: string
+  contactNo: string
+  address: string
 }
 export type Student = {
   id: string
@@ -32,11 +31,7 @@ export type Student = {
   presentAddress: string
   permanentAddress: string
   guardian: Guardian
-  localGuardian:LocalGuardian
-  profileImg?:string
-  isActive:'Active'|'inactive'
+  localGuardian: LocalGuardian
+  profileImg?: string
+  isActive: 'Active' | 'inactive'
 }
-
-
-
-

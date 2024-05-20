@@ -14,9 +14,7 @@ app.use(cors())
 app.use('/api/v1/students', StudentRoutes)
 
 const getAControls = (req: Request, res: Response) => {
-  const a = 10
-
-  res.send(a)
+  res.send('server running')
 }
 app.get('/', getAControls)
 
