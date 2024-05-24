@@ -145,8 +145,9 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
 
 //model
 
-studentSchema.methods.isUserExits = async function (id: string) {
-  const existingUser = await Student.findOne({ id: id })
-  return existingUser
-}
+//------------creating custom static method
+// studentSchema.methods.isUserExits = async function (id: string) {
+//   const existingUser = await Student.findOne({ id: id })
+//   return existingUser
+// }
 export const Student = model<TStudent, StudentModel>('Student', studentSchema)
