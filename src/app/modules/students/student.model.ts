@@ -10,9 +10,8 @@ import {
   StudentModel,
   TUserName,
 } from './student.interface'
-import config from '../..'
-import { boolean } from 'joi'
-
+import config from '../../config'
+  
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -79,84 +78,87 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
   },
 })
 
-const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
-  id: {
-    type: String,
-    required: [true, 'Student ID is required.'],
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: [true, ' password is required.'],
-  },
-  name: {
-    type: userNameSchema,
-    required: [true, 'Student name is required.'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Email is required.'],
-    unique: true,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: (props) => `${props.value} is not a valid email address.`,
+const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
+  {
+    id: {
+      type: String,
+      required: [true, 'Student ID is required.'],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, ' password is required.'],
+    },
+    name: {
+      type: userNameSchema,
+      required: [true, 'Student name is required.'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required.'],
+      unique: true,
+      validate: {
+        validator: (value: string) => validator.isEmail(value),
+        message: (props) => `${props.value} is not a valid email address.`,
+      },
+    },
+    doBarth: {
+      type: String,
+    },
+    bloodGroup: {
+      // type: String,
+      enum: {
+        values: ['A+', 'A-', 'B+', 'B-', 'AB-', 'AB+', 'O+', 'O-'],
+      },
+    },
+    gender: {
+      type: String,
+      enum: ['Male', 'Female'],
+      required: [true, 'Gender is required.'],
+    },
+    contactNo: {
+      type: String,
+      required: [true, 'Contact number is required.'],
+    },
+    EmergencyContactNo: {
+      type: String,
+      required: [true, 'Emergency contact number is required.'],
+    },
+    permanentAddress: {
+      type: String,
+      required: [true, 'Permanent address is required.'],
+    },
+    presentAddress: {
+      type: String,
+      required: [true, 'Present address is required.'],
+    },
+    guardian: {
+      type: guardianSchema,
+      required: [true, 'Guardian information is required.'],
+    },
+    profileImg: {
+      type: String,
+    },
+    isActive: {
+      type: String,
+      enum: ['Active', 'Inactive'],
+      default: 'Active',
+    },
+    localGuardian: {
+      type: localGuardianSchema,
+      required: [true, 'Local guardian information is required.'],
+    },
+    isDelete: {
+      type: Boolean,
+      default: false,
     },
   },
-  doBarth: {
-    type: String,
-  },
-  bloodGroup: {
-    // type: String,
-    enum: {
-      values: ['A+', 'A-', 'B+', 'B-', 'AB-', 'AB+', 'O+', 'O-'],
+  {
+    toJSON: {
+      virtuals: true,
     },
   },
-  gender: {
-    type: String,
-    enum: ['Male', 'Female'],
-    required: [true, 'Gender is required.'],
-  },
-  contactNo: {
-    type: String,
-    required: [true, 'Contact number is required.'],
-  },
-  EmergencyContactNo: {
-    type: String,
-    required: [true, 'Emergency contact number is required.'],
-  },
-  permanentAddress: {
-    type: String,
-    required: [true, 'Permanent address is required.'],
-  },
-  presentAddress: {
-    type: String,
-    required: [true, 'Present address is required.'],
-  },
-  guardian: {
-    type: guardianSchema,
-    required: [true, 'Guardian information is required.'],
-  },
-  profileImg: {
-    type: String,
-  },
-  isActive: {
-    type: String,
-    enum: ['Active', 'Inactive'],
-    default: 'Active',
-  },
-  localGuardian: {
-    type: localGuardianSchema,
-    required: [true, 'Local guardian information is required.'],
-  },
-  isDelete: {
-    type: Boolean,
-    default: false,
-  }
-},{
-  toJSON:{
-    virtuals:true
-  }
-})
+)
 
 //pre save hook
 studentSchema.pre('save', async function (next) {
@@ -172,8 +174,8 @@ studentSchema.pre('save', async function (next) {
 
 ///virtual
 
-studentSchema.virtual('fullName').get(function(){
-  return (`${this.name.firstName} ${this.name.middleName } ${this.name.lastName}`)
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
 })
 // post save hook
 
@@ -184,15 +186,15 @@ studentSchema.post('save', function (doc, next) {
 
 // query hook
 studentSchema.pre('find', function (next) {
-  this.find({isDelete:{$ne:true}})
+  this.find({ isDelete: { $ne: true } })
   next()
 })
 studentSchema.pre('findOne', function (next) {
-  this.find({isDelete:{$ne:true}})
+  this.find({ isDelete: { $ne: true } })
   next()
 })
 studentSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({$match:{isDelete:{$ne:true}}})
+  this.pipeline().unshift({ $match: { isDelete: { $ne: true } } })
   // this.find({isDelete:{$ne:true}})
   next()
 })

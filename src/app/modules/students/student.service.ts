@@ -1,5 +1,4 @@
-import { Model } from 'mongoose';
-import { TStudent, TUserName } from './student.interface'
+ import { TStudent } from './student.interface'
 import { Student } from './student.model'
 
 const createStudentIntoDB = async (studentData: TStudent) => {
