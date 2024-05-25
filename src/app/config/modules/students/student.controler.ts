@@ -12,13 +12,7 @@ const createStudent = async (req: Request, res: Response) => {
     const zodParse = zodStudentValidationSchema.parse(studentData)
 
     const result = await StudentServices.createStudentIntoDB(zodParse)
-    //   if(error){
-    //     res.status(500).json({
-    //       success: false,
-    //       message: 'Some thing went wrong',
-    //       data: error.details,
-    //   })
-    // }
+       
 
     //send response
     res.status(200).json({
@@ -44,8 +38,29 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'A student gotten successfully',
       data: result,
     })
-  } catch (error) {
-    console.log(error)
+  } catch (error:any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Some thing went wrong',
+      data: error,
+    })
+  }
+}
+const deleteStudent = async (req: Request, res: Response) => {
+  try {
+    const { studentID } = req.params
+    const result = await StudentServices.deleteStudentFromDB(studentID)
+    res.status(200).json({
+      success: true,
+      message: 'A student deleted successfully',
+      data: result,
+    })
+  } catch (error:any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Some thing went wrong',
+      data: error,
+    })
   }
 }
 const getAllStudent = async (req: Request, res: Response) => {
@@ -56,8 +71,12 @@ const getAllStudent = async (req: Request, res: Response) => {
       message: 'Student are gotten successfully',
       data: result,
     })
-  } catch (error) {
-    console.log(error)
+  } catch (error:any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Some thing went wrong',
+      data: error,
+    })
   }
 }
 
@@ -65,4 +84,5 @@ export const studentControllers = {
   createStudent,
   getAllStudent,
   getSingleStudent,
+  deleteStudent
 }

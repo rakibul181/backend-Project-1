@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose'
 import validator from 'validator'
+import bcrypt from 'bcrypt'
 
 import {
   TGuardian,
@@ -9,6 +10,8 @@ import {
   StudentModel,
   TUserName,
 } from './student.interface'
+import config from '../..'
+import { boolean } from 'joi'
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -82,6 +85,10 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
     required: [true, 'Student ID is required.'],
     unique: true,
   },
+  password: {
+    type: String,
+    required: [true, ' password is required.'],
+  },
   name: {
     type: userNameSchema,
     required: [true, 'Student name is required.'],
@@ -141,6 +148,53 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
     type: localGuardianSchema,
     required: [true, 'Local guardian information is required.'],
   },
+  isDelete: {
+    type: Boolean,
+    default: false,
+  }
+},{
+  toJSON:{
+    virtuals:true
+  }
+})
+
+//pre save hook
+studentSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round),
+  )
+
+  next()
+})
+
+///virtual
+
+studentSchema.virtual('fullName').get(function(){
+  return (`${this.name.firstName} ${this.name.middleName } ${this.name.lastName}`)
+})
+// post save hook
+
+studentSchema.post('save', function (doc, next) {
+  doc.password = ''
+  next()
+})
+
+// query hook
+studentSchema.pre('find', function (next) {
+  this.find({isDelete:{$ne:true}})
+  next()
+})
+studentSchema.pre('findOne', function (next) {
+  this.find({isDelete:{$ne:true}})
+  next()
+})
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({$match:{isDelete:{$ne:true}}})
+  // this.find({isDelete:{$ne:true}})
+  next()
 })
 
 //model

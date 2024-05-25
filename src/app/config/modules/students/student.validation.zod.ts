@@ -50,6 +50,7 @@ const localGuardianSchema = z.object({
 // Student Schema Validation
 const zodStudentValidationSchema = z.object({
   id: z.string().min(1, 'Student ID is required.'),
+  password: z.string().min(6, 'password is required.'),
   name: userNameSchema,
   email: z
     .string()
@@ -82,6 +83,7 @@ const zodStudentValidationSchema = z.object({
   guardian: guardianSchema,
   profileImg: z.string().url('Profile image must be a valid URL.').optional(),
   isActive: z.enum(['Active', 'Inactive']).default('Active'),
+  isDelete:z.boolean().default(false),
   localGuardian: localGuardianSchema,
 })
 

@@ -23,6 +23,7 @@ export type TLocalGuardian = {
 }
 export type TStudent = {
   id: string
+  password: string
   name: TUserName
   email: string
   doBarth?: string
@@ -36,6 +37,7 @@ export type TStudent = {
   localGuardian: TLocalGuardian
   profileImg?: string
   isActive: 'Active' | 'Inactive'
+  isDelete:boolean
 }
 
 export type StudentMethods = {
