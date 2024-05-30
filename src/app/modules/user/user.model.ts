@@ -46,7 +46,7 @@ userSchema.pre('save', async function (next) {
   next()
 })
 
-userSchemag.post('save', function (doc, next) {
+userSchema.post('save', function (doc, next) {
   doc.password = ''
   next()
 })

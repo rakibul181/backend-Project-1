@@ -1,9 +1,11 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { StudentServices } from './student.service'
 
-
-
-const getSingleStudent = async (req: Request, res: Response) => {
+const getSingleStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { studentID } = req.params
     const result = await StudentServices.getSingleStudentFromDB(studentID)
@@ -12,15 +14,15 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'A student gotten successfully',
       data: result,
     })
-  } catch (error:any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Some thing went wrong',
-      data: error,
-    })
+  } catch (error) {
+    next(error)
   }
 }
-const deleteStudent = async (req: Request, res: Response) => {
+const deleteStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { studentID } = req.params
     const result = await StudentServices.deleteStudentFromDB(studentID)
@@ -29,15 +31,15 @@ const deleteStudent = async (req: Request, res: Response) => {
       message: 'A student deleted successfully',
       data: result,
     })
-  } catch (error:any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Some thing went wrong',
-      data: error,
-    })
+  } catch (error) {
+    next(error)
   }
 }
-const getAllStudent = async (req: Request, res: Response) => {
+const getAllStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await StudentServices.getAllStudentsFromDB()
     res.status(200).json({
@@ -45,17 +47,13 @@ const getAllStudent = async (req: Request, res: Response) => {
       message: 'Student are gotten successfully',
       data: result,
     })
-  } catch (error:any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Some thing went wrong',
-      data: error,
-    })
+  } catch (error) {
+    next(error)
   }
 }
 
 export const studentControllers = {
   getAllStudent,
   getSingleStudent,
-  deleteStudent
+  deleteStudent,
 }
