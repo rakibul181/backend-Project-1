@@ -157,17 +157,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
   },
 )
 
-//pre save hook
-studentSchema.pre('save', async function (next) {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_round),
-  )
-
-  next()
-})
+ 
 
 ///virtual
 
@@ -176,25 +166,7 @@ studentSchema.virtual('fullName').get(function () {
 })
 // post save hook
 
-studentSchema.post('save', function (doc, next) {
-  doc.password = ''
-  next()
-})
 
-// query hook
-studentSchema.pre('find', function (next) {
-  this.find({ isDelete: { $ne: true } })
-  next()
-})
-studentSchema.pre('findOne', function (next) {
-  this.find({ isDelete: { $ne: true } })
-  next()
-})
-studentSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { isDelete: { $ne: true } } })
-  // this.find({isDelete:{$ne:true}})
-  next()
-})
 
 //model
 
