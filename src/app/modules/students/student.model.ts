@@ -85,9 +85,11 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
       required: [true, 'Student ID is required.'],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, ' password is required.'],
+    user: {
+      type: Schema.ObjectId,
+      required: [true, ' User Id is required.'],
+      unique:true,
+      ref:"User"
     },
     name: {
       type: userNameSchema,
@@ -138,11 +140,6 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
     },
     profileImg: {
       type: String,
-    },
-    isActive: {
-      type: String,
-      enum: ['Active', 'Inactive'],
-      default: 'Active',
     },
     localGuardian: {
       type: localGuardianSchema,
