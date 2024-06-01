@@ -1,12 +1,8 @@
 import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
-import { StudentRoutes } from './app/modules/students/student.route'
-import { UserRoutes } from './app/modules/user/user.route'
 import globalErrorHandler from './app/middleware/middleware'
-import { userInfo } from 'os'
 import notFound from './app/middleware/notFound'
-
-
+import router from './app/router'
 
 const app: Application = express()
 // const port = 3000
@@ -18,8 +14,7 @@ app.use(cors())
 
 //./api/v1/students/create-student
 
-app.use('/api/v1/students', StudentRoutes)
-app.use('/api/v1/users', UserRoutes)
+app.use('/api/v1', router)
 
 const getAControls = (req: Request, res: Response) => {
   res.send('server running')
