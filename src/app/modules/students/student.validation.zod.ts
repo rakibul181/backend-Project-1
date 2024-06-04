@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // UserName Schema Validation
-const userNameSchema = z.object({
+const userNameValidationSchema = z.object({
   firstName: z
     .string()
     .max(18, 'First name must be within 18 characters.')
@@ -15,7 +15,7 @@ const userNameSchema = z.object({
 })
 
 // Guardian Schema Validation
-const guardianSchema = z.object({
+const guardianValidationSchema = z.object({
   fatherName: z.string().min(1, "Father's name is required."),
   fatherOccupation: z.string().min(1, "Father's occupation is required."),
   fatherContactNo: z
@@ -33,7 +33,7 @@ const guardianSchema = z.object({
 })
 
 // Local Guardian Schema Validation
-const localGuardianSchema = z.object({
+const localGuardianValidationSchema = z.object({
   name: z.string().min(1, "Local guardian's name is required."),
   occupation: z.string().min(1, "Local guardian's occupation is required."),
   contactNo: z
@@ -48,43 +48,50 @@ const localGuardianSchema = z.object({
 })
 
 // Student Schema Validation
-const zodStudentValidationSchema = z.object({
-  id: z.string().min(1, 'Student ID is required.'),
-  password: z.string().min(6, 'password is required.'),
-  name: userNameSchema,
-  email: z
-    .string()
-    .email('Email must be a valid email address.')
-    .min(1, 'Email is required.'),
-  doBarth: z
-    .string()
-    .optional()
-    .refine((val) => !val || !isNaN(Date.parse(val)), {
-      message: 'Date of birth must be a valid date in ISO format (YYYY-MM-DD).',
+const zodCreateStudentValidationSchema = z.object({
+  body: z.object({
+    password: z.string().min(6, 'password is required.'),
+    student: z.object({
+      name: userNameValidationSchema,
+      email: z
+        .string()
+        .email('Email must be a valid email address.')
+        .min(1, 'Email is required.'),
+      doBarth: z
+        .string()
+        .optional()
+        .refine((val) => !val || !isNaN(Date.parse(val)), {
+          message:
+            'Date of birth must be a valid date in ISO format (YYYY-MM-DD).',
+        }),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+        .optional(),
+      gender: z.enum(['Male', 'Female'], {
+        required_error: 'Gender is required.',
+      }),
+      contactNo: z
+        .string()
+        .regex(/^[0-9]+$/, 'Contact number must contain only digits.')
+        .min(10, 'Contact number must be at least 10 digits.')
+        .max(15, 'Contact number must be at most 15 digits.'),
+      EmergencyContactNo: z
+        .string()
+        .regex(/^[0-9]+$/, 'Emergency contact number must contain only digits.')
+        .min(10, 'Emergency contact number must be at least 10 digits.')
+        .max(15, 'Emergency contact number must be at most 15 digits.'),
+      permanentAddress: z.string().min(1, 'Permanent address is required.'),
+      presentAddress: z.string().min(1, 'Present address is required.'),
+      guardian: guardianValidationSchema,
+      profileImg: z
+        .string()
+        .url('Profile image must be a valid URL.')
+        .optional(),
+      localGuardian: localGuardianValidationSchema,
     }),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-    .optional(),
-  gender: z.enum(['Male', 'Female'], {
-    required_error: 'Gender is required.',
   }),
-  contactNo: z
-    .string()
-    .regex(/^[0-9]+$/, 'Contact number must contain only digits.')
-    .min(10, 'Contact number must be at least 10 digits.')
-    .max(15, 'Contact number must be at most 15 digits.'),
-  EmergencyContactNo: z
-    .string()
-    .regex(/^[0-9]+$/, 'Emergency contact number must contain only digits.')
-    .min(10, 'Emergency contact number must be at least 10 digits.')
-    .max(15, 'Emergency contact number must be at most 15 digits.'),
-  permanentAddress: z.string().min(1, 'Permanent address is required.'),
-  presentAddress: z.string().min(1, 'Present address is required.'),
-  guardian: guardianSchema,
-  profileImg: z.string().url('Profile image must be a valid URL.').optional(),
-  isActive: z.enum(['Active', 'Inactive']).default('Active'),
-  isDelete:z.boolean().default(false),
-  localGuardian: localGuardianSchema,
 })
 
-export default zodStudentValidationSchema
+export const StudentValidations = {
+  zodCreateStudentValidationSchema,
+}

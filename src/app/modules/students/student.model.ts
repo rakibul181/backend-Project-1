@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose'
 import validator from 'validator'
-import bcrypt from 'bcrypt'
 
 import {
   TGuardian,
@@ -10,8 +9,7 @@ import {
   StudentModel,
   TUserName,
 } from './student.interface'
-import config from '../../config'
-  
+   
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
