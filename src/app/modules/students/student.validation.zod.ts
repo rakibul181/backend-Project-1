@@ -58,12 +58,9 @@ const zodCreateStudentValidationSchema = z.object({
         .email('Email must be a valid email address.')
         .min(1, 'Email is required.'),
       doBarth: z
-        .string()
+        .date()
         .optional()
-        .refine((val) => !val || !isNaN(Date.parse(val)), {
-          message:
-            'Date of birth must be a valid date in ISO format (YYYY-MM-DD).',
-        }),
+         ,
       bloodGroup: z
         .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
         .optional(),

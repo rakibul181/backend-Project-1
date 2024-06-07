@@ -103,7 +103,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
       },
     },
     doBarth: {
-      type: String,
+      type: Date,
     },
     bloodGroup: {
       // type: String,
