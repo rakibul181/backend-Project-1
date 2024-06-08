@@ -12,6 +12,12 @@ const createAcademicSemesterIntoDB =async(playLoad:TAcademicSemester)=>{
     return result
 }
 
+const getAllAcademicSemesterFromDB = async()=>{
+    const result = AcademicSemester.find()
+    return result
+}
+
 export const academicSemesterServices ={
-    createAcademicSemesterIntoDB
+    createAcademicSemesterIntoDB,
+    getAllAcademicSemesterFromDB
 }
