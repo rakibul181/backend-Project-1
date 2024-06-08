@@ -9,7 +9,7 @@ import {
   StudentModel,
   TUserName,
 } from './student.interface'
-   
+    
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -139,6 +139,11 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
     profileImg: {
       type: String,
     },
+    admissionSemester:{
+      type:Schema.Types.ObjectId,
+      ref:"AcademicSemester"
+    }
+    ,
     localGuardian: {
       type: localGuardianSchema,
       required: [true, 'Local guardian information is required.'],

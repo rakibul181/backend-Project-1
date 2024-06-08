@@ -80,6 +80,7 @@ const zodCreateStudentValidationSchema = z.object({
       permanentAddress: z.string().min(1, 'Permanent address is required.'),
       presentAddress: z.string().min(1, 'Present address is required.'),
       guardian: guardianValidationSchema,
+      admissionSemester:z.string(),
       profileImg: z
         .string()
         .url('Profile image must be a valid URL.')
