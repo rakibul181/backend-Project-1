@@ -1,7 +1,7 @@
 import express from 'express'
 import validateRequest from '../../middleware/validateRequest'
 import { academicFacultyValidation } from './academicFaculty.validation'
-import { academicFacultyController } from './AcademicFaculty.controller'
+import { academicFacultyController } from './academicFaculty.controller'
 
 const router = express.Router()
 
@@ -10,20 +10,13 @@ router.post(
   validateRequest(academicFacultyValidation.academicFacultySchemaValidation),
   academicFacultyController.createAcademicFaculty,
 )
-router.get(
-  '/',
-  academicFacultyController.getAllAcademicFaculty,
-)
-router.get(
-  '/:facultyID',
-  academicFacultyController.getAllAcademicFaculty,
-)
+router.get('/', academicFacultyController.getAllAcademicFaculty)
+router.get('/:departmentID', academicFacultyController.getAllAcademicFaculty)
 
 router.patch(
-    '/:facultyID',
-    validateRequest(academicFacultyValidation.academicFacultySchemaValidation),
-    academicFacultyController.updateAcademicFaculty,
-  )
+  '/:departmentID',
+  validateRequest(academicFacultyValidation.academicFacultySchemaValidation),
+  academicFacultyController.updateAcademicFaculty,
+)
 
-
- export const AcademicFacultyRouter  = router
+export const AcademicFacultyRouter = router
