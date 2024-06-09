@@ -1,10 +1,13 @@
 import config from "../../config"
+import { AcademicSemester } from "../academicSemester/academicSemester.model"
 import { TStudent } from "../students/student.interface"
 import { Student } from "../students/student.model"
 import { TUser } from "./user.interface"
 import { User } from "./user.model"
+import { generateStudentId } from "./user.utils"
+ 
 
-const createStudentIntoDB = async (password:string, studentData: TStudent) => {
+const createStudentIntoDB = async (password:string, playLoad: TStudent) => {
     
     //Create new user
     const userData:Partial<TUser> = {}  
@@ -14,9 +17,11 @@ const createStudentIntoDB = async (password:string, studentData: TStudent) => {
 
     //set user role
     userData.role = 'student'
+
+    const admissionSemester = await AcademicSemester.findById(playLoad.admissionSemester)
      
-    //manually set generated id
-    userData.id = '2015111200'
+   if(admissionSemester)
+  {userData.id = await generateStudentId(admissionSemester)}
 
     //create  user
     const newUser = await User.create(userData)
@@ -24,10 +29,10 @@ const createStudentIntoDB = async (password:string, studentData: TStudent) => {
     //create student
 
     if(Object.keys(newUser).length){
-        studentData.id = newUser.id
-        studentData.user = newUser._id //ref ID
+        playLoad.id = newUser.id
+        playLoad.user = newUser._id //ref ID
 
-        const newStudent = await Student.create(studentData)
+        const newStudent = await Student.create(playLoad)
         return newStudent
 
     }
