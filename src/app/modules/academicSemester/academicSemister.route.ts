@@ -1,8 +1,8 @@
 import express from 'express'
 import validateRequest from '../../middleware/validateRequest'
+ import { AcademicSemesterControllers } from './academicSemester.controller'
 import { AcademicSemesterValidation } from './academicSemester.Validation'
-import { AcademicSemesterControllers } from './academicSemester.controller'
-
+ 
 const router = express.Router()
 
 router.post(
