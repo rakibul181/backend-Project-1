@@ -142,6 +142,10 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
     admissionSemester:{
       type:Schema.Types.ObjectId,
       ref:"AcademicSemester"
+    },
+    admissionDepartment:{
+      type:Schema.Types.ObjectId,
+      ref:'AcademicDepartment'
     }
     ,
     localGuardian: {
