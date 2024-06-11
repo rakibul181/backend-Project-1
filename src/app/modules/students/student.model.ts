@@ -106,7 +106,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
       type: Date,
     },
     bloodGroup: {
-      // type: String,
+      type: String,
       enum: {
         values: ['A+', 'A-', 'B+', 'B-', 'AB-', 'AB+', 'O+', 'O-'],
       },
