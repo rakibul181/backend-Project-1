@@ -6,7 +6,7 @@ import { Student } from '../students/student.model'
 import { TUser } from './user.interface'
 import { User } from './user.model'
 import { generateStudentId } from './user.utils'
-import { AppError } from '../../utils/appError'
+import { AppError } from '../../errors/appError'
 import httpStatus from 'http-status'
 
 const createStudentIntoDB = async (password: string, playLoad: TStudent) => {

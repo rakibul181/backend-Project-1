@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { Student } from './student.model'
-import { AppError } from '../../utils/appError'
+import { AppError } from '../../errors/appError'
 import httpStatus from 'http-status'
 import { User } from '../user/user.model'
 import { TStudent } from './student.interface'
@@ -34,7 +34,6 @@ const getSingleStudentFromDB = async (studentID: string) => {
 
   return result
 }
-
 
 const updateStudentFromDB = async (
   studentID: string,
