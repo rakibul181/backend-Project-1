@@ -4,6 +4,9 @@ import { ZodError } from 'zod'
 import handelZodError from '../errors/handelZodError'
 import config from '../config'
 import handelValidationError from '../errors/handelValidatorError'
+import handelCastError from '../errors/handelCastError'
+import handelDuplicateError from '../errors/handelDuplicateError'
+import { AppError } from '../errors/appError'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -13,8 +16,8 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  let statusCode = error.statusCode || 500
-  let message = error.message || 'Something went wrong'
+  let statusCode = 500
+  let message = 'Something went wrong'
 
   let errorSources: TErrorSources = [
     {
@@ -33,6 +36,33 @@ const globalErrorHandler = (
     statusCode = simplifiedError?.statusCode
     message = simplifiedError?.message
     errorSources = simplifiedError?.errorSources
+  } else if (error?.name === 'CastError') {
+    const simplifiedError = handelCastError(error)
+    statusCode = simplifiedError?.statusCode
+    message = simplifiedError?.message
+    errorSources = simplifiedError?.errorSources
+  } else if (error?.code === 11000) {
+    const simplifiedError = handelDuplicateError(error)
+    statusCode = simplifiedError?.statusCode
+    message = simplifiedError?.message
+    errorSources = simplifiedError?.errorSources
+  } else if (error instanceof AppError) {
+    statusCode = error?.statusCode
+    message = error?.message
+    errorSources = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ]
+  } else if (error instanceof Error) {
+    message = error.message
+    errorSources = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ]
   }
 
   return res.status(statusCode).json({
