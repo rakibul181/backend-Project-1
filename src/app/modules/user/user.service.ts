@@ -5,12 +5,13 @@ import { TStudent } from '../students/student.interface'
 import { Student } from '../students/student.model'
 import { TUser } from './user.interface'
 import { User } from './user.model'
-import { generateAdminId, generateStudentId } from './user.utils'
+import { generateAdminId, generateFacultyId, generateStudentId } from './user.utils'
 import { AppError } from '../../errors/appError'
 import httpStatus from 'http-status'
 import { TAdmin } from '../admin/admin.interface'
 import { Admin } from '../admin/admin.model'
 import { TFaculty } from '../faculty/faculty.interface'
+import { Faculty } from '../faculty/faculty.model'
 
 const createStudentIntoDB = async (password: string, playLoad: TStudent) => {
   //Create new user
@@ -138,33 +139,27 @@ const createFacultyIntoDB = async (password: string, playLoad: TFaculty) => {
 
   try {
     session.startTransaction()
-    if (admissionSemester) {
-      userData.id = await generateStudentId(admissionSemester)
-    }
+    userData.id = await generateFacultyId()
 
     //create  user
     const newUser = await User.create([userData], { session })
 
     if (!newUser.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create new User')
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create new Faculty')
     }
-    if (Object.keys(newUser).length) {
-      playLoad.id = newUser[0].id
-      playLoad.user = newUser[0]._id //ref ID
 
-      const newStudent = await Student.create([playLoad], { session })
+    playLoad.id = newUser[0].id
+    playLoad.user = newUser[0]._id //ref ID
 
-      if (!newStudent) {
-        throw new AppError(
-          httpStatus.BAD_REQUEST,
-          'Failed to create new Student',
-        )
-      }
+    const newFaculty = await Faculty.create([playLoad], { session })
 
-      await session.commitTransaction()
-      await session.endSession()
-      return newStudent
+    if (!newFaculty) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create new Faculty')
     }
+
+    await session.commitTransaction()
+    await session.endSession()
+    return newFaculty
   } catch (error) {
     await session.abortTransaction()
     await session.endSession()

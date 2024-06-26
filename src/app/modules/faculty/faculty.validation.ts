@@ -32,7 +32,7 @@ const updateUserNameValidationSchema = z.object({
 const CreateFacultyValidationSchema = z.object({
   bod: z.object({
     password: z.string().min(6, 'password is required.'),
-    admin: z.object({
+    faculty: z.object({
       name: createUserNameValidationSchema,
       email: z
         .string()
@@ -69,7 +69,7 @@ const CreateFacultyValidationSchema = z.object({
 const updateFacultyValidationSchema = z.object({
   body: z.object({
     password: z.string().min(6, 'password is required.'),
-    admin: z.object({
+    faculty: z.object({
       name: updateUserNameValidationSchema,
       email: z
         .string()
@@ -117,7 +117,7 @@ const updateFacultyValidationSchema = z.object({
   }),
 })
 
-export const AdminValidations = {
+export const FacultyValidations = {
     CreateFacultyValidationSchema,
    updateFacultyValidationSchema,
 }
