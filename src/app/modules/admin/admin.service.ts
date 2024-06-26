@@ -3,9 +3,8 @@ import QueryBuilder from '../../builder/QueryBuilder'
 import { Admin } from './admin.model'
 import { searchableField } from './admin.constant'
 
-
 const getAllAdminFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(Admin.find(),query,)
+  const adminQuery = new QueryBuilder(Admin.find(), query)
     .search(searchableField)
     .filter()
     .sort()
@@ -15,20 +14,10 @@ const getAllAdminFromDB = async (query: Record<string, unknown>) => {
   const result = await adminQuery.modelQuery
 
   return result
-
-  
 }
 
-const getSingleStudentFromDB = async (studentID: string) => {
-  // const result = await Student.findOne({ id: studentID })
-  const result = await Student.findOne({ id: studentID })
-    .populate('admissionSemester')
-    .populate({
-      path: 'admissionDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    })
+const getSingleAdminFromDB = async (id: string) => {
+  const result = await Admin.findById(id)
 
   return result
 }
@@ -106,4 +95,5 @@ const deleteStudentFromDB = async (studentID: string) => {
 
 export const AdminServices = {
   getAllAdminFromDB,
+  getSingleAdminFromDB,
 }

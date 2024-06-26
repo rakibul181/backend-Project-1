@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/',  adminControllers.getAllAdmin)
 
-// router.get('/:studentID', studentControllers.getSingleStudent)
+router.get('/:id',  adminControllers.getSingleAdmin)
 
 // router.delete('/:studentID', studentControllers.deleteStudent)
 

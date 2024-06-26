@@ -15,13 +15,13 @@ const getAllAdmin = catchAsync(async (req, res) => {
   })
 })
 
-const getSingleStudent = catchAsync(async (req, res) => {
-  const { studentID } = req.params
-  const result = await StudentServices.getSingleStudentFromDB(studentID)
+const getSingleAdmin = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await AdminServices.getSingleAdminFromDB(id)
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student are gotten successfully',
+    message: 'Admin are gotten successfully',
     data: result,
   })
 })
@@ -52,4 +52,5 @@ const updateStudent = catchAsync(async (req, res) => {
 
 export const adminControllers = {
   getAllAdmin,
+  getSingleAdmin,
 }
