@@ -1,15 +1,15 @@
 import express from 'express'
-import { adminControllers } from './admin.controller'
- 
+import { facultyControllers } from './faculty.controller'
+  
 const router = express.Router()
 
-router.get('/',  adminControllers.getAllAdmin)
+router.get('/',  facultyControllers.getAllFaculty)
 
-router.get('/:id',  adminControllers.getSingleAdmin)
+router.get('/:id',  facultyControllers.getSingleFaculty)
 
-router.patch('/:id', adminControllers.updateAdmin)
+router.patch('/:id', facultyControllers.updateFaculty)
 
-router.delete('/:id', adminControllers.deleteAdmin)
+router.delete('/:id', facultyControllers.deleteFaculty)
 
 
-export const AdminRoutes = router
+export const FacultyRoutes = router
