@@ -30,7 +30,7 @@ const updateUserNameValidationSchema = z.object({
 
 // Faculty Schema Validation
 const CreateFacultyValidationSchema = z.object({
-  bod: z.object({
+  body: z.object({
     password: z.string().min(6, 'password is required.'),
     faculty: z.object({
       name: createUserNameValidationSchema,
