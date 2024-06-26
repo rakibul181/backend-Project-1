@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import QueryBuilder from '../../builder/QueryBuilder'
 import { Admin } from './admin.model'
 import { searchableField } from './admin.constant'
+import { TAdmin } from './admin.interface'
 
 const getAllAdminFromDB = async (query: Record<string, unknown>) => {
   const adminQuery = new QueryBuilder(Admin.find(), query)
@@ -22,11 +23,8 @@ const getSingleAdminFromDB = async (id: string) => {
   return result
 }
 
-const updateStudentFromDB = async (
-  studentID: string,
-  playLoad: Partial<TStudent>,
-) => {
-  const { name, guardian, localGuardian, ...remainingStudentData } = playLoad
+const updateAdminFromDB = async (id: string, playLoad: Partial<TAdmin>) => {
+  const { name, ...remainingStudentData } = playLoad
 
   const modifiedUpdatedData: Record<string, unknown> = {
     ...remainingStudentData,
@@ -37,26 +35,11 @@ const updateStudentFromDB = async (
       modifiedUpdatedData[`name.${key}`] = value
     }
   }
-  if (guardian && Object.keys(guardian).length) {
-    for (const [key, value] of Object.entries(guardian)) {
-      modifiedUpdatedData[`guardian.${key}`] = value
-    }
-  }
 
-  if (localGuardian && Object.keys(localGuardian).length) {
-    for (const [key, value] of Object.entries(localGuardian)) {
-      modifiedUpdatedData[`localGuardian.${key}`] = value
-    }
-  }
-
-  const result = await Student.findOneAndUpdate(
-    { id: studentID },
-    modifiedUpdatedData,
-    {
-      new: true,
-      runValidators: true,
-    },
-  )
+  const result = await Admin.findByIdAndUpdate(id, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  })
   return result
 }
 const deleteStudentFromDB = async (studentID: string) => {
@@ -96,4 +79,5 @@ const deleteStudentFromDB = async (studentID: string) => {
 export const AdminServices = {
   getAllAdminFromDB,
   getSingleAdminFromDB,
+  updateAdminFromDB,
 }
