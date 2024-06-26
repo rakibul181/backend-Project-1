@@ -1,7 +1,19 @@
-import { StudentServices } from './student.service'
 import httpStatus from 'http-status'
 import sendResponse from '../../utils/sendResponse'
 import catchAsync from '../../utils/catchAsync'
+import { AdminServices } from './admin.service'
+ 
+
+const getAllAdmin = catchAsync(async (req, res) => {
+  const result = await AdminServices.getAllAdminFromDB(req.query)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Admin are gotten successfully',
+    data: result,
+  })
+})
 
 const getSingleStudent = catchAsync(async (req, res) => {
   const { studentID } = req.params
@@ -36,20 +48,8 @@ const updateStudent = catchAsync(async (req, res) => {
   })
 })
 
-const getAllStudent = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentsFromDB(req.query)
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student are gotten successfully',
-    data: result,
-  })
-})
 
-export const studentControllers = {
-  getAllStudent,
-  getSingleStudent,
-  updateStudent,
-  deleteStudent,
+export const adminControllers = {
+  getAllAdmin,
 }

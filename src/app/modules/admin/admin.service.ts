@@ -1,45 +1,22 @@
 import mongoose from 'mongoose'
-import { Student } from './student.model'
-import { AppError } from '../../errors/appError'
-import httpStatus from 'http-status'
-import { User } from '../user/user.model'
-import { TStudent } from './student.interface'
 import QueryBuilder from '../../builder/QueryBuilder'
-import { searchableField } from './student.constant'
+import { Admin } from './admin.model'
+import { searchableField } from './admin.constant'
+
 
 const getAllAdminFromDB = async (query: Record<string, unknown>) => {
-  const studentQuery = new QueryBuilder(
-    Student.find()
-      .populate('admissionSemester')
-      .populate({
-        path: 'admissionDepartment',
-        populate: {
-          path: 'academicFaculty',
-        },
-      }),
-    query,
-  )
+  const adminQuery = new QueryBuilder(Admin.find(),query,)
     .search(searchableField)
     .filter()
     .sort()
     .paginate()
     .fields()
 
-  const result = await studentQuery.modelQuery
+  const result = await adminQuery.modelQuery
 
   return result
 
-  // const filterQuery = searchQuery
-  //   .find(queryObj)
-  //   .populate('admissionSemester')
-  //   .populate({
-  //     path: 'admissionDepartment',
-  //     populate: {
-  //       path: 'academicFaculty',
-  //     },
-  //   })
-
-  // }
+  
 }
 
 const getSingleStudentFromDB = async (studentID: string) => {
@@ -127,9 +104,6 @@ const deleteStudentFromDB = async (studentID: string) => {
   }
 }
 
-export const StudentServices = {
-  getAllStudentsFromDB,
-  getSingleStudentFromDB,
-  updateStudentFromDB,
-  deleteStudentFromDB,
+export const AdminServices = {
+  getAllAdminFromDB,
 }

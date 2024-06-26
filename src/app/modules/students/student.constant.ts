@@ -1,8 +1,7 @@
 export const searchableField = [
-    // 'name',
-    'email',
+     'email',
     'name.firstName',
-    // 'name.middleName',
-    // 'name.lastName',
+    'name.middleName',
+    'name.lastName',
     'presentAddress',
   ]
