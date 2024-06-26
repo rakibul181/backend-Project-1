@@ -39,13 +39,13 @@ const updateAdmin = catchAsync(async (req, res) => {
   })
 })
 
-const deleteStudent = catchAsync(async (req, res) => {
-  const { studentID } = req.params
-  const result = await StudentServices.deleteStudentFromDB(studentID)
+const deleteAdmin = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await  AdminServices.deleteAdminFromDB(id)
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student are gotten successfully',
+    message: 'Admin are delete successfully',
     data: result,
   })
 })
@@ -53,5 +53,6 @@ const deleteStudent = catchAsync(async (req, res) => {
 export const adminControllers = {
   getAllAdmin,
   getSingleAdmin,
-  updateAdmin
+  updateAdmin,
+  deleteAdmin
 }

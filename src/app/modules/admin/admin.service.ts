@@ -3,6 +3,9 @@ import QueryBuilder from '../../builder/QueryBuilder'
 import { Admin } from './admin.model'
 import { searchableField } from './admin.constant'
 import { TAdmin } from './admin.interface'
+import httpStatus from 'http-status'
+import { AppError } from '../../errors/appError'
+import { User } from '../user/user.model'
 
 const getAllAdminFromDB = async (query: Record<string, unknown>) => {
   const adminQuery = new QueryBuilder(Admin.find(), query)
@@ -42,26 +45,27 @@ const updateAdminFromDB = async (id: string, playLoad: Partial<TAdmin>) => {
   })
   return result
 }
-const deleteStudentFromDB = async (studentID: string) => {
+const deleteAdminFromDB = async (id: string) => {
   const session = await mongoose.startSession()
   try {
     session.startTransaction()
-    const isDeleted = await Student.findByIdAndUpdate(
-      { id: studentID },
+    const deletedAdmin = await Admin.findByIdAndUpdate(
+      id,
       { isDelete: true },
       { new: true, session },
     )
 
-    if (!isDeleted) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Student is not deleted')
+    if (!deletedAdmin) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Admin is not deleted')
     }
+    const userId = deletedAdmin.user;
 
-    const isDeleteUser = await User.findOneAndUpdate(
-      { id: studentID },
+    const deleteUser = await User.findOneAndUpdate(
+      userId,
       { isDelete: true },
       { new: true, session },
     )
-    if (!isDeleteUser) {
+    if (!deleteUser) {
       throw new AppError(httpStatus.BAD_REQUEST, 'User is not deleted')
     }
     await session.commitTransaction()
@@ -80,4 +84,5 @@ export const AdminServices = {
   getAllAdminFromDB,
   getSingleAdminFromDB,
   updateAdminFromDB,
+  deleteAdminFromDB
 }

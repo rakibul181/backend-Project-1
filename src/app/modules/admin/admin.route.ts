@@ -9,7 +9,7 @@ router.get('/:id',  adminControllers.getSingleAdmin)
 
 router.patch('/:id', adminControllers.updateAdmin)
 
-// router.delete('/:studentID', studentControllers.deleteStudent)
+router.delete('/:id', adminControllers.deleteAdmin)
 
 
 export const AdminRoutes = router
