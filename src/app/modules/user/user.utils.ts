@@ -42,9 +42,9 @@ export const generateStudentId = async (playLoad: TAcademicSemester) => {
 }
 //faculty
 export const findLastFacultyID = async () => {
-  const lastStudent = await User.findOne(
+  const lastFaculty = await User.findOne(
     {
-      role: 'student',
+      role: 'faculty',
     },
     {
       id: 1,
@@ -54,33 +54,26 @@ export const findLastFacultyID = async () => {
     .sort({ createdAt: -1 })
     .lean()
 
-  return lastStudent?.id ? lastStudent.id : undefined
+  return lastFaculty?.id ? lastFaculty.id : undefined
 }
 
-export const generateFacultyId = async (playLoad: TAcademicSemester) => {
-  let currentID = (0).toString()
-  const lastStudent = await findLastStudentID()
+export const generateFacultyId = async () => {
+  let  currentID = (0).toString()
+  const lastFacultyID = await findLastFacultyID()
 
-  const lastStudentSemesterCode = lastStudent?.substring(4, 6)
-  const lastStudentSemesterYear = lastStudent?.substring(0, 4)
-  const currentSeamsterCode = playLoad.code
-  const currentSeamsterYear = playLoad.year
-
+ 
   if (
-    lastStudent &&
-    lastStudentSemesterCode === currentSeamsterCode &&
-    lastStudentSemesterYear === currentSeamsterYear
-  ) {
-    currentID = lastStudent?.substring(0,6)
+    lastFacultyID) {
+    currentID = lastFacultyID?.substring(2)
   }
 
 
 
-  const incrementID = (Number(currentID) + 1).toString().padStart(4, '0')
-  const studentID = `${playLoad.year}${playLoad.code}${incrementID}`
-  return studentID
+  let incrementID = (Number(currentID) + 1).toString().padStart(4, '0')
+  incrementID = `F-${incrementID}`
+  return incrementID
 }
-//student
+//admin
 export const findLastAdminID = async () => {
   const lastAdmin = await User.findOne(
     {

@@ -10,6 +10,7 @@ import { AppError } from '../../errors/appError'
 import httpStatus from 'http-status'
 import { TAdmin } from '../admin/admin.interface'
 import { Admin } from '../admin/admin.model'
+import { TFaculty } from '../faculty/faculty.interface'
 
 const createStudentIntoDB = async (password: string, playLoad: TStudent) => {
   //Create new user
@@ -123,7 +124,7 @@ const createAdminIntoDB = async (password: string, playLoad: TAdmin) => {
   // }
   // const result = await student.save() //built in instance
 }
-const createFacultyIntoDB = async (password: string, playLoad: TStudent) => {
+const createFacultyIntoDB = async (password: string, playLoad: TFaculty) => {
   //Create new user
   const userData: Partial<TUser> = {}
 
@@ -133,11 +134,7 @@ const createFacultyIntoDB = async (password: string, playLoad: TStudent) => {
   userData.password = password || (config.default_password as string)
 
   //set user role
-  userData.role = 'student'
-
-  const admissionSemester = await AcademicSemester.findById(
-    playLoad.admissionSemester,
-  )
+  userData.role = 'faculty'
 
   try {
     session.startTransaction()

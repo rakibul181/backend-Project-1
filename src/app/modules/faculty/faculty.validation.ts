@@ -28,7 +28,7 @@ const updateUserNameValidationSchema = z.object({
     .optional(),
 })
 
-// Admin Schema Validation
+// Faculty Schema Validation
 const CreateFacultyValidationSchema = z.object({
   bod: z.object({
     password: z.string().min(6, 'password is required.'),
