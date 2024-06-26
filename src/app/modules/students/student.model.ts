@@ -171,15 +171,32 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>(
 studentSchema.virtual('fullName').get(function () {
   return `${this.name?.firstName} ${this.name?.middleName} ${this.name?.lastName}`
 })
+
+studentSchema.pre('find', function (next) {
+  this.find({
+    isDelete: { $ne: true },
+  })
+  next()
+})
+studentSchema.pre('findOne', function (next) {
+  this.find({
+    isDelete: { $ne: true },
+  })
+  next()
+})
 // post save hook
 
 
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
 //model
 
 //------------creating custom static method
-// studentSchema.methods.isUserExits = async function (id: string) {
-//   const existingUser = await Student.findOne({ id: id })
-//   return existingUser
-// }
+studentSchema.methods.isUserExits = async function (id: string) {
+  const existingUser = await Student.findOne({ id: id })
+  return existingUser
+}
 export const Student = model<TStudent, StudentModel>('Student', studentSchema)
