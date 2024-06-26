@@ -26,7 +26,7 @@ const deleteCoursesFromDB = async (id: string) => {
   return result
 }
 
-export const academicFacultyServices = {
+export const CourseServices = {
    createCourseIntoDB,
    getAllCourseFromDB,
    getSingleCourseByIDFromDB,
