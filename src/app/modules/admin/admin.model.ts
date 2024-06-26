@@ -26,7 +26,7 @@ const AdminSchema = new Schema<TAdmin, AdminModel>(
   {
     id: {
       type: String,
-      required: [true, 'Student ID is required.'],
+      required: [true, 'Admin ID is required.'],
       unique: true,
     },
     user: {
@@ -82,10 +82,7 @@ const AdminSchema = new Schema<TAdmin, AdminModel>(
     profileImg: {
       type: String,
     },
-    managementDepartment: {
-      type: Schema.Types.ObjectId,
-      ref: 'AcademicDepartment',
-    },
+  
     designation: {
       type: String,
       required: [true, 'Designation Is required'],
@@ -126,4 +123,4 @@ AdminSchema.pre('aggregate', function (next) {
     next();
   });
   
-export const Student = model<TAdmin, AdminModel>('Admin', AdminSchema)
+export const Admin = model<TAdmin, AdminModel>('Admin', AdminSchema)

@@ -20,7 +20,6 @@ export type TAdmin = {
   presentAddress: string
   permanentAddress: string
   profileImg?: string
-  managementDepartment:Types.ObjectId
   isDelete:boolean
 }
 

@@ -32,13 +32,13 @@ const updateUserNameValidationSchema = z.object({
 const CreateAdminValidationSchema = z.object({
   body: z.object({
     password: z.string().min(6, 'password is required.'),
-    student: z.object({
+    admin: z.object({
       name: createUserNameValidationSchema,
       email: z
         .string()
         .email('Email must be a valid email address.')
         .min(1, 'Email is required.'),
-      doBarth: z.date().optional(),
+      doBarth: z.string().optional(),
       bloodGroup: z
         .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
         .optional(),
@@ -69,14 +69,14 @@ const CreateAdminValidationSchema = z.object({
 const updateAdminValidationSchema = z.object({
   body: z.object({
     password: z.string().min(6, 'password is required.'),
-    student: z.object({
+    admin: z.object({
       name: updateUserNameValidationSchema,
       email: z
         .string()
         .email('Email must be a valid email address.')
         .min(1, 'Email is required.')
         .optional(),
-      doBarth: z.date().optional(),
+      doBarth: z.string().optional(),
       bloodGroup: z
         .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
         .optional(),
@@ -105,8 +105,7 @@ const updateAdminValidationSchema = z.object({
         .string()
         .min(1, 'P       resent address is required.')
         .optional(),
-      managementDepartment: z.string().optional(),
-      profileImg: z
+       profileImg: z
         .string()
         .url('Profile image must be a valid URL.')
         .optional(),
@@ -115,7 +114,7 @@ const updateAdminValidationSchema = z.object({
   }),
 })
 
-export const StudentValidations = {
+export const AdminValidations = {
     CreateAdminValidationSchema,
    updateAdminValidationSchema,
 }
