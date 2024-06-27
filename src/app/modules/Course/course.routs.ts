@@ -10,6 +10,17 @@ router.post(
     validateRequest(CourseValidation.createCourseValidationSchema),
     courseControllers.createCourse,
   )
+router.put(
+    '/:courseId/assign-faculties',
+    validateRequest(CourseValidation.assignFacultyWithCourseValidationSchema),
+    courseControllers.assignFacultyWithCourse,
+  )
+router.delete(
+    '/:courseId/remove-faculties',
+    validateRequest(CourseValidation.assignFacultyWithCourseValidationSchema),
+    courseControllers.removeFacultyWithCourse,
+  )
+
 router.get('/',  courseControllers.getAllCourse)
 
 router.get('/:id',  courseControllers.getSingleCourse)

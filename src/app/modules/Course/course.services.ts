@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import QueryBuilder from '../../builder/QueryBuilder'
 import { courseSearchableField } from './course.constant'
-import { TCourse } from './course.interface'
-import { Course } from './course.model'
+import { TCourse, TCourseFaculty } from './course.interface'
+import { Course, CourseFaculty } from './course.model'
 import { AppError } from '../../errors/appError'
 import httpStatus from 'http-status'
 
@@ -117,10 +117,57 @@ const updateCourseIntoDB = async (id: string, playLoad: Partial<TCourse>) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to update course')
   }
 }
+
+const assignFacultyWithCourseIntoDB = async (
+  id: string,
+  plyLoad: Partial<TCourseFaculty>,
+) => {
+  const result = CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+      course:id,
+      $addToSet:{
+        faculties:{
+          $each:plyLoad
+        }
+      }
+    },
+    {
+      upsert:true,
+      new:true
+    }
+  )
+
+  return result
+}
+const removeFacultyWithCourseIntoDB = async (
+  id: string,
+  plyLoad: Partial<TCourseFaculty>,
+) => {
+  const result = CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+       
+      $pull:{
+        faculties:{
+          $in:plyLoad
+        }
+      }
+    },
+    {
+       new:true
+    }
+  )
+
+  return result
+}
+
 export const CourseServices = {
   createCourseIntoDB,
   getAllCourseFromDB,
   getSingleCourseByIDFromDB,
   deleteCoursesFromDB,
   updateCourseIntoDB,
+  assignFacultyWithCourseIntoDB,
+  removeFacultyWithCourseIntoDB
 }
