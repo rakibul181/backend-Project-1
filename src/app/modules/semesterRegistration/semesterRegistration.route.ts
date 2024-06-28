@@ -6,4 +6,6 @@ const router = express.Router()
 
 router.post('/create-semester-registration',validateRequest(semesterRegistrationValidation.semesterRegistrationValidationSchema),semesterRegistrationController.createSemesterRegistration)
 
+router.get('/', semesterRegistrationController.getAllSemesterRegistration)
+
 export  const SemesterRegistrationRouter = router
