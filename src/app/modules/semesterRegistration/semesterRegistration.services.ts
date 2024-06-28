@@ -50,10 +50,14 @@ const getSemesterRegistrationFromDB = async (
   const result = await semesterRegistrationQuery.modelQuery
   return result
 }
-// const CreateSemesterRegistrationIntoDB = async () => {}
+const getSingleSemesterRegistrationByIdFromDB = async (id:string) => {
+ const result = SemesterRegistration.findById(id).populate("academicSemester")
+ return result
+}
 // const CreateSemesterRegistrationIntoDB = async () => {}
 
 export const semesterRegistrationServices = {
   createSemesterRegistrationIntoDB,
   getSemesterRegistrationFromDB,
+  getSingleSemesterRegistrationByIdFromDB,
 }

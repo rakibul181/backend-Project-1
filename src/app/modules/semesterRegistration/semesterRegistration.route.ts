@@ -4,8 +4,16 @@ import { semesterRegistrationValidation } from './semesterRegistration.validatio
 import { semesterRegistrationController } from './semesterRegistration.controller'
 const router = express.Router()
 
-router.post('/create-semester-registration',validateRequest(semesterRegistrationValidation.semesterRegistrationValidationSchema),semesterRegistrationController.createSemesterRegistration)
+router.post(
+  '/create-semester-registration',
+  validateRequest(
+    semesterRegistrationValidation.semesterRegistrationValidationSchema,
+  ),
+  semesterRegistrationController.createSemesterRegistration,
+)
 
 router.get('/', semesterRegistrationController.getAllSemesterRegistration)
 
-export  const SemesterRegistrationRouter = router
+router.get('/:id', semesterRegistrationController.getSingleSemesterRegistration)
+
+export const SemesterRegistrationRouter = router
