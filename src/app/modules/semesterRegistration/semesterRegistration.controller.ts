@@ -53,20 +53,21 @@ const updateSemesterRegistration = catchAsync(async (req, res) => {
   })
 })
 
-// const deleteFaculty = catchAsync(async (req, res) => {
-//   const { id } = req.params
-//   const result = await  FacultyServices.deleteFacultyFromDB(id)
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Faculty are delete successfully',
-//     data: result,
-//   })
-// })
+const deleteSemesterRegistration = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await  semesterRegistrationServices.deleteSemesterRegistrationFromDb(id)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'semester is delete successfully',
+    data: result,
+  })
+})
 
 export const semesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistration,
   getSingleSemesterRegistration,
-  updateSemesterRegistration
+  updateSemesterRegistration,
+  deleteSemesterRegistration
 }

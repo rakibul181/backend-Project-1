@@ -15,6 +15,7 @@ router.post(
 router.get('/', semesterRegistrationController.getAllSemesterRegistration)
 
 router.get('/:id', semesterRegistrationController.getSingleSemesterRegistration)
+router.delete('/:id', semesterRegistrationController.deleteSemesterRegistration)
 
 router.patch(
   '/:id',
