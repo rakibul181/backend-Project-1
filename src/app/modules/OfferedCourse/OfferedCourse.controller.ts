@@ -18,54 +18,58 @@ const createOfferedCourse = catchAsync(async (req, res) => {
   })
 })
 
-// const getAllSemesterRegistration = catchAsync(async (req, res) => {
-//   const result =
-//     await semesterRegistrationServices.getSemesterRegistrationFromDB(req.query)
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Registered Semester is found successfully',
-//     data: result,
-//   })
-// })
+const getAllOfferedCourse = catchAsync(async (req, res) => {
+  const result =
+    await offeredCourseServices.getOfferedCourseFromDB(req.query)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Offered Course is found successfully',
+    data: result,
+  })
+})
 
-// const getSingleSemesterRegistration = catchAsync(async (req, res) => {
-//   const { id } = req.params
-//   const result =
-//     await semesterRegistrationServices.getSingleSemesterRegistrationByIdFromDB(
-//       id,
-//     )
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Registered semester is found successfully',
-//     data: result,
-//   })
-// })
+const getSingleOfferedCourse = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result =
+    await offeredCourseServices.getSingleOfferedCourseFromDB(
+      id,
+    )
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Offered Course  is found successfully',
+    data: result,
+  })
+})
 
-// const updateSemesterRegistration = catchAsync(async (req, res) => {
-//    const { id } = req.params
-//   const result = await semesterRegistrationServices.updateSemesterRegistrationOnDB(id, req.body)
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Faculty is updated successfully',
-//     data: result,
-//   })
-// })
+const updateOfferedCourse = catchAsync(async (req, res) => {
+   const { id } = req.params
+  const result = await offeredCourseServices.updateOfferedCourseOnDB(id, req.body)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Offered Course is updated successfully',
+    data: result,
+  })
+})
 
-// const deleteFaculty = catchAsync(async (req, res) => {
-//   const { id } = req.params
-//   const result = await  FacultyServices.deleteFacultyFromDB(id)
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Faculty are delete successfully',
-//     data: result,
-//   })
-// })
+const deleteOfferedCourse = catchAsync(async (req, res) => {
+  const { id } = req.params
+  const result = await  offeredCourseServices.deleteOfferedCourseFromDB(id)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Offered Course is delete successfully',
+    data: result,
+  })
+})
 
 export const offeredCourseController = {
   createOfferedCourse,
+  getAllOfferedCourse,
+  getSingleOfferedCourse,
+  updateOfferedCourse,
+  deleteOfferedCourse
    
 }

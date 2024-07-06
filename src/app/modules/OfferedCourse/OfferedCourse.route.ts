@@ -6,22 +6,20 @@ const router = express.Router()
 
 router.post(
   '/create-offered-course',
-  validateRequest(
-    offeredCourseValidation.createOfferedCourseValidationSchema,
-  ),
+  validateRequest(offeredCourseValidation.createOfferedCourseValidationSchema),
   offeredCourseController.createOfferedCourse,
 )
 
-// router.get('/', semesterRegistrationController.getAllSemesterRegistration)
+router.get('/', offeredCourseController.getAllOfferedCourse)
 
-// router.get('/:id', semesterRegistrationController.getSingleSemesterRegistration)
+router.get('/:id', offeredCourseController.getSingleOfferedCourse)
 
-// router.patch(
-//   '/:id',
-//   validateRequest(
-//     semesterRegistrationValidation.UpdateSemesterRegistrationValidationSchema,
-//   ),
-//   semesterRegistrationController. updateSemesterRegistration,
-// )
+router.patch(
+  '/:id',
+  validateRequest(offeredCourseValidation.updateOfferedCourseValidationSchema),
+  offeredCourseController.updateOfferedCourse,
+)
+
+router.delete('/:id', offeredCourseController.deleteOfferedCourse)
 
 export const OfferedCourseRouter = router
